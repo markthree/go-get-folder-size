@@ -1,4 +1,4 @@
-package goGetFolderSize
+package main
 
 import (
 	"testing"
