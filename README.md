@@ -10,6 +10,22 @@ To quickly know the folder size，but [get-folder-size](https://github.com/aless
 
 <br />
 
+## Usage
+
+### install
+
+```shell
+go install github.com/markthree/go-get-folder-size
+```
+
+### cli
+
+```shell
+go-get-folder-size
+```
+
+<br />
+
 ## License
 
 Made with [markthree](https://github.com/markthree)
