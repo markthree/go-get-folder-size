@@ -1,0 +1,24 @@
+{
+  "name": "go-get-folder-size",
+  "version": "0.0.1",
+  "description": "Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed",
+  "main": "npm/index.js",
+  "scripts": {
+    "test": "TODO",
+    "build": "TODO",
+    "release": "TODO"
+  },
+  "keywords": [
+    "go",
+    "size",
+    "folder",
+    "fastest",
+    "webAssembly"
+  ],
+  "author": {
+    "name": "markthree",
+    "email": "1801982702@qq.com",
+    "url": "https://github.com/markthree"
+  },
+  "license": "MIT"
+}
