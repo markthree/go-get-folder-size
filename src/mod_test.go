@@ -15,3 +15,13 @@ func TestGetFileSize(t *testing.T) {
 
 	is.Equal(size, int64(6))
 }
+
+func TestGetFolderSizeParallel(t *testing.T) {
+	is := assert.New(t)
+
+	size, err := GetFolderSizeParallel("../fixture")
+
+	is.Nil(err)
+
+	is.Equal(size, int64(6))
+}

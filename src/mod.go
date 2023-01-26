@@ -1,9 +1,12 @@
 package goGetFolderSize
 
 import (
+	"fmt"
+	"io/fs"
 	"os"
 	"path"
 	"sync"
+	"sync/atomic"
 )
 
 // Synchronous execution, slow
@@ -11,13 +14,14 @@ func GetFolderSize(folder string) (int64, error) {
 	var totalSize int64
 	dirEntrys, err := os.ReadDir(folder)
 
+	if err != nil {
+		return 0, err
+	}
+
 	if len(dirEntrys) == 0 {
 		return 0, nil
 	}
 
-	if err != nil {
-		return 0, err
-	}
 	for _, dirEntry := range dirEntrys {
 		if dirEntry.IsDir() {
 			size, err := GetFolderSize(path.Join(folder, dirEntry.Name()))
@@ -39,12 +43,48 @@ func GetFolderSize(folder string) (int64, error) {
 }
 
 // Parallel execution, fast enough
-func GetFolderSizeParallel(folder string) (int64, error) {
-	var totalSize int64
+func GetFolderSizeParallel(folder string) (totalSize int64, e error) {
 	var wg sync.WaitGroup
+	dirEntrys, err := os.ReadDir(folder)
 
-	// TODO Parallel
+	// try panic
+	defer func() {
+		if err := recover(); err != nil {
+			e = fmt.Errorf("%v", err)
+		}
+	}()
+
+	if err != nil {
+		return 0, err
+	}
+
+	dirEntrysLen := len(dirEntrys)
+
+	if dirEntrysLen == 0 {
+		return 0, nil
+	}
+
+	wg.Add(dirEntrysLen)
+
+	for _, dirEntry := range dirEntrys {
+		go func(_dirEntry fs.DirEntry) {
+			if _dirEntry.IsDir() {
+				size, err := GetFolderSizeParallel(path.Join(folder, _dirEntry.Name()))
+				if err != nil {
+					panic(err)
+				}
+				atomic.AddInt64(&totalSize, size)
+			} else {
+				info, err := _dirEntry.Info()
+				if err != nil {
+					panic(err)
+				}
+				atomic.AddInt64(&totalSize, info.Size())
+			}
+			wg.Done()
+		}(dirEntry)
+	}
+
 	wg.Wait()
-
 	return totalSize, nil
 }
