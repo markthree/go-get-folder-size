@@ -6,7 +6,7 @@
   "scripts": {
     "test": "TODO",
     "build": "TODO",
-    "release": "TODO"
+    "release": "bumpp --push --tag --all"
   },
   "keywords": [
     "go",
@@ -20,5 +20,8 @@
     "email": "1801982702@qq.com",
     "url": "https://github.com/markthree"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "bumpp": "^8.2.1"
+  }
 }
