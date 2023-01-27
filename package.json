@@ -27,8 +27,8 @@
     "prepublishOnly": "pnpm build",
     "play-ts": "tsx core/index.ts",
     "release": "bumpp --push --tag --all && npm publish",
-    "build": "rimraf -rf npm && run-p build-ts build-go-wasm build-types",
-    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm && go build -o ./npm/core.wasm ./core/index.go"
+    "build": "rimraf -rf npm && pnpm build-go-wasm && run-p build-ts build-types",
+    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm && go build -o ./core/index.wasm ./core/index.go"
   },
   "keywords": [
     "go",
