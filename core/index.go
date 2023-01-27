@@ -10,8 +10,7 @@ import (
 )
 
 // Synchronous execution, slow
-func Sync(folder string) (int64, error) {
-	var totalSize int64
+func Sync(folder string) (totalSize int64, e error) {
 	dirEntrys, err := os.ReadDir(folder)
 
 	if err != nil {
@@ -67,21 +66,23 @@ func Parallel(folder string) (totalSize int64, e error) {
 	wg.Add(dirEntrysLen)
 
 	for _, dirEntry := range dirEntrys {
-		go func(_dirEntry fs.DirEntry) {
-			if _dirEntry.IsDir() {
-				size, err := Parallel(path.Join(folder, _dirEntry.Name()))
+		go func(dirEntry fs.DirEntry) {
+			defer wg.Done()
+
+			if dirEntry.IsDir() {
+				size, err := Parallel(path.Join(folder, dirEntry.Name()))
 				if err != nil {
 					panic(err)
 				}
 				atomic.AddInt64(&totalSize, size)
-			} else {
-				info, err := _dirEntry.Info()
-				if err != nil {
-					panic(err)
-				}
-				atomic.AddInt64(&totalSize, info.Size())
+				return
 			}
-			wg.Done()
+
+			info, err := dirEntry.Info()
+			if err != nil {
+				panic(err)
+			}
+			atomic.AddInt64(&totalSize, info.Size())
 		}(dirEntry)
 	}
 
