@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"outDir": "npm",
+		"jsx": "preserve",
+		"target": "ES2017",
+		"module": "ESNext",
+		"declaration": true,
+		"lib": ["DOM", "ESNext"],
+		"skipLibCheck": true,
+		"isolatedModules": true,
+		"moduleResolution": "node",
+		"emitDeclarationOnly": true,
+		"resolveJsonModule": true
+	},
+	"include": ["core/**/*.ts"],
+	"exclude": ["node_modules", "npm"]
+}

@@ -2,11 +2,32 @@
   "name": "go-get-folder-size",
   "version": "0.0.2",
   "description": "Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed",
-  "main": "npm/index.js",
+  "main": "./npm/index.cjs",
+  "module": "./npm/index.mjs",
+  "types": "./npm/index.d.ts",
+  "files": [
+    "npm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markthree/go-get-folder-size.git"
+  },
+  "exports": {
+    ".": {
+      "require": "./npm/index.cjs",
+      "import": "./npm/index.mjs",
+      "types": "./npm/index.d.ts"
+    }
+  },
   "scripts": {
-    "test": "TODO",
-    "build": "TODO",
-    "release": "bumpp --push --tag --all"
+    "play-go": "go run",
+    "build-types": "tsc",
+    "build-go": "go build",
+    "build-ts": "vite build",
+    "play-ts": "tsx core/index.ts",
+    "release": "bumpp --push --tag --all",
+    "build": "rimraf -rf npm && run-p build-ts build-go-wasm build-types",
+    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm && go build -o ./npm/core.wasm ./core/index.go"
   },
   "keywords": [
     "go",
@@ -22,6 +43,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "bumpp": "^8.2.1"
+    "bumpp": "^8.2.1",
+    "cross-env": "^7.0.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^4.1.2",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
   }
 }

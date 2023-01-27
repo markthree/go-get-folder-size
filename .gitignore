@@ -1,2 +1,4 @@
+npm
 *.exe
 node_modules
+tsconfig.tsbuildinfo

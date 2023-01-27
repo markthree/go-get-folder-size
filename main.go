@@ -30,5 +30,4 @@ func main() {
 		}
 		print(bytefmt.ByteSize(uint64(size)))
 	}
-
 }
