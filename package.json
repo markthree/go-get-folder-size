@@ -24,8 +24,9 @@
     "build-types": "tsc",
     "build-go": "go build",
     "build-ts": "vite build",
+    "prepublishOnly": "pnpm build",
     "play-ts": "tsx core/index.ts",
-    "release": "bumpp --push --tag --all",
+    "release": "bumpp --push --tag --all && npm publish",
     "build": "rimraf -rf npm && run-p build-ts build-go-wasm build-types",
     "build-go-wasm": "cross-env GOOS=js GOARCH=wasm && go build -o ./npm/core.wasm ./core/index.go"
   },
