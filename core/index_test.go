@@ -1,4 +1,4 @@
-package main
+package core
 
 import (
 	"testing"
@@ -6,20 +6,20 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetFileSize(t *testing.T) {
+func TestSync(t *testing.T) {
 	is := assert.New(t)
 
-	size, err := GetFolderSize("../fixture")
+	size, err := Sync("../fixture")
 
 	is.Nil(err)
 
 	is.Equal(size, int64(6))
 }
 
-func TestGetFolderSizeParallel(t *testing.T) {
+func TestParallel(t *testing.T) {
 	is := assert.New(t)
 
-	size, err := GetFolderSizeParallel("../fixture")
+	size, err := Parallel("../fixture")
 
 	is.Nil(err)
 
