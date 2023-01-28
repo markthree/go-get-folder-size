@@ -7,5 +7,11 @@
 		"GOARCH": "wasm",
 		"GOOS": "js"
 	},
-	"go.installDependenciesWhenBuilding": false
+	"go.installDependenciesWhenBuilding": false,
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.expand": false,
+	"explorer.fileNesting.patterns": {
+		"*.go": "*_test.go",
+		"package.json": "*.json,*.yaml,*.sum,*.mod,LICENSE,.gitignore,*.config.ts"
+	}
 }
