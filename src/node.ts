@@ -1,3 +1,4 @@
+import type { Dirent } from 'node:fs'
 import prettyBytes from 'pretty-bytes'
 import { readdir, lstat } from 'node:fs/promises'
 
@@ -28,8 +29,8 @@ export async function getFolderSize(
 		return 0
 	}
 
-	const files = []
-	const directorys = []
+	const files: Dirent[] = []
+	const directorys: Dirent[] = []
 
 	for (const dirent of dirents) {
 		if (dirent.isFile()) {
