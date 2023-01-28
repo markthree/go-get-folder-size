@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import mri from 'mri'
 import { getFolderSizeBin } from './bin'
 
