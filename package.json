@@ -6,7 +6,7 @@
   "module": "./npm/index.mjs",
   "types": "./npm/index.d.ts",
   "bin": {
-    "go-get-folder-size": "bin/cli.cjs"
+    "go-get-folder-size": "bin/cli.js"
   },
   "files": [
     "bin",
