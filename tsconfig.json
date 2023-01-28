@@ -3,7 +3,7 @@
 		"outDir": "npm",
 		"jsx": "preserve",
 		"target": "ES2017",
-		"module": "ESNext",
+		"module": "NodeNext",
 		"declaration": true,
 		"lib": ["DOM", "ESNext"],
 		"skipLibCheck": true,

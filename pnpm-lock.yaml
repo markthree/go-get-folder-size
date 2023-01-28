@@ -6,6 +6,7 @@ specifiers:
   cross-env: ^7.0.3
   get-folder-size: ^4.0.0
   npm-run-all: ^4.1.5
+  pretty-bytes: ^6.0.0
   rimraf: ^4.1.2
   tsx: ^3.12.2
   typescript: ^4.9.4
@@ -17,6 +18,7 @@ devDependencies:
   cross-env: 7.0.3
   get-folder-size: 4.0.0
   npm-run-all: 4.1.5
+  pretty-bytes: 6.0.0
   rimraf: 4.1.2
   tsx: 3.12.2
   typescript: 4.9.4
@@ -1177,6 +1179,11 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
+
+  /pretty-bytes/6.0.0:
+    resolution: {integrity: sha512-6UqkYefdogmzqAZWzJ7laYeJnaXDy2/J+ZqiiMtS7t7OfpXWTlaeGMwX8U6EFvPV/YWWEKRkS8hKS4k60WHTOg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
   /prompts/2.4.2:

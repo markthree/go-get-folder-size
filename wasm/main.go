@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	value, err := getFolderSize.Parallel(os.Getenv("path"))
+	value, err := getFolderSize.Parallel(os.Getenv("base"))
 
 	if err != nil {
 		js.Global().Set("$folderSizeError", err)

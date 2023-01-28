@@ -18,6 +18,9 @@ export default defineConfig({
 				}
 				return 'index.js'
 			}
+		},
+		rollupOptions: {
+			external: ['node:fs/promises']
 		}
 	}
 })
