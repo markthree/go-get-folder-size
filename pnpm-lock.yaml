@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/node': ^18.11.18
   bumpp: ^8.2.1
   cross-env: ^7.0.3
   npm-run-all: ^4.1.5
@@ -10,13 +11,14 @@ specifiers:
   vite: ^4.0.4
 
 devDependencies:
+  '@types/node': 18.11.18
   bumpp: 8.2.1
   cross-env: 7.0.3
   npm-run-all: 4.1.5
   rimraf: 4.1.2
   tsx: 3.12.2
   typescript: 4.9.4
-  vite: 4.0.4
+  vite: 4.0.4_@types+node@18.11.18
 
 packages:
 
@@ -286,6 +288,10 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@types/node/18.11.18:
+    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
     dev: true
 
   /ansi-styles/3.2.1:
@@ -1423,7 +1429,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite/4.0.4:
+  /vite/4.0.4_@types+node@18.11.18:
     resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1448,6 +1454,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 18.11.18
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1

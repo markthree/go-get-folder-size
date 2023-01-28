@@ -1,3 +1,4 @@
+// go-cli
 package main
 
 import (
@@ -5,7 +6,7 @@ import (
 	"os"
 
 	"code.cloudfoundry.org/bytefmt"
-	getFolderSize "github.com/markthree/go-get-folder-size/core"
+	getFolderSize "github.com/markthree/go-get-folder-size/src"
 )
 
 func main() {

@@ -24,11 +24,11 @@
     "build-types": "tsc",
     "build-go": "go build",
     "build-ts": "vite build",
+    "sync": "node scripts/sync.js",
     "prepublishOnly": "pnpm build",
-    "play-ts": "tsx core/index.ts",
     "release": "bumpp --push --tag --all && npm publish",
     "build": "rimraf -rf npm && pnpm build-go-wasm && run-p build-ts build-types",
-    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm && go build -o ./core/index.wasm ./core/index.go"
+    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go"
   },
   "keywords": [
     "go",
@@ -44,6 +44,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "bumpp": "^8.2.1",
     "cross-env": "^7.0.3",
     "npm-run-all": "^4.1.5",

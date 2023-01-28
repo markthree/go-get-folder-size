@@ -8,7 +8,7 @@ export default defineConfig({
 		lib: {
 			name,
 			formats: ['cjs', 'es'],
-			entry: './core/index.ts',
+			entry: './src/index.ts',
 			fileName(f) {
 				if (f === 'cjs') {
 					return `index.cjs`

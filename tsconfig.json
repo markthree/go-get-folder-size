@@ -10,8 +10,9 @@
 		"isolatedModules": true,
 		"moduleResolution": "node",
 		"emitDeclarationOnly": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"types": ["vite/client", "@types/node"]
 	},
-	"include": ["core/**/*.ts"],
+	"include": ["src/index.ts"],
 	"exclude": ["node_modules", "npm"]
 }
