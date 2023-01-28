@@ -12,16 +12,68 @@ To quickly know the folder size，but [get-folder-size](https://github.com/aless
 
 ## Usage
 
-### install
+### npm
+
+#### install
+
+```shell
+npm install go-get-folder-size
+```
+
+#### cli
+
+```shell
+# Binary go, fastest
+npx go-get-folder-size
+```
+
+#### program
+
+```ts
+import {
+	getFolderSize,
+	getFolderSizeBin,
+	getFolderSizeWasm
+} from 'go-get-folder-size'
+
+const base = './' // The directory path you want to get
+
+await getFolderSizeBin(base) // Binary go, fastest
+
+await getFolderSize(base) // native node
+
+await getFolderSizeWasm(base) // Wasm go，slowest
+```
+
+### go
+
+#### cli
 
 ```shell
 go install github.com/markthree/go-get-folder-size
 ```
 
-### cli
-
 ```shell
 go-get-folder-size
+```
+
+#### program
+
+```shell
+# Super invincible fast
+go get github.com/markthree/go-get-folder-size
+```
+
+```go
+package main
+
+import (
+	getFolderSize "github.com/markthree/go-get-folder-size/src"
+)
+
+func main() {
+	size, err := getFolderSize.Parallel("./") // Concurrent running, invincible fast
+}
 ```
 
 <br />
