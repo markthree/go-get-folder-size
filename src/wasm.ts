@@ -6,11 +6,11 @@ import init from '../wasm/main.wasm?init'
 // Not recommended. It may be slower than the native node
 export async function getFolderSizeWasm(
 	base: string,
-	pretty: false
+	pretty?: false
 ): Promise<number>
 export async function getFolderSizeWasm(
 	base: string,
-	pretty: true
+	pretty?: true
 ): Promise<string>
 export async function getFolderSizeWasm(
 	base: string,

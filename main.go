@@ -44,8 +44,8 @@ func main() {
 	}
 
 	if sliceIncludes(os.Args, "-p") {
-		print(bytefmt.ByteSize(uint64(_size)))
+		fmt.Print(bytefmt.ByteSize(uint64(_size)))
 	} else {
-		print(uint64(_size))
+		fmt.Print(uint64(_size))
 	}
 }

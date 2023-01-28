@@ -12,11 +12,11 @@ export function zipSizes(sizes: number[]) {
 
 export async function getFolderSize(
 	base: string,
-	pretty: false
+	pretty?: false
 ): Promise<number>
 export async function getFolderSize(
 	base: string,
-	pretty: true
+	pretty?: true
 ): Promise<string>
 export async function getFolderSize(
 	base: string,

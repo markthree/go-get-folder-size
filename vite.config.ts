@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { name } from './package.json'
+import { builtinModules } from 'module'
 
 export default defineConfig({
 	build: {
@@ -20,7 +21,10 @@ export default defineConfig({
 			}
 		},
 		rollupOptions: {
-			external: ['node:fs/promises']
+			external: [
+				...builtinModules,
+				...builtinModules.map(v => `node:${v}`)
+			]
 		}
 	}
 })
