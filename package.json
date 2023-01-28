@@ -5,6 +5,9 @@
   "main": "./npm/index.cjs",
   "module": "./npm/index.mjs",
   "types": "./npm/index.d.ts",
+  "bin": {
+    "go-get-folder-size": "npm/cli.cjs"
+  },
   "files": [
     "npm",
     "dist"
@@ -26,10 +29,10 @@
     "build-go": "go build",
     "build-ts": "vite build",
     "sync": "node scripts/sync.js",
-    "prepublishOnly": "run-p build build-go-bin",
+    "prepublishOnly": "pnpm build",
     "release": "bumpp --push --tag --all && npm publish",
     "build-go-bin": "goreleaser release --snapshot --rm-dist",
-    "build": "rimraf -rf npm && pnpm build-go-wasm && run-p build-ts build-types",
+    "build": "rimraf -rf npm && run-p build-go-wasm build-go-bin && run-p build-ts build-types",
     "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go"
   },
   "keywords": [
@@ -51,6 +54,7 @@
     "cross-env": "^7.0.3",
     "execa": "^6.1.0",
     "get-folder-size": "^4.0.0",
+    "mri": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "pretty-bytes": "^6.0.0",
     "rimraf": "^4.1.2",

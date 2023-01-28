@@ -9,15 +9,15 @@ export default defineConfig({
 		lib: {
 			name,
 			formats: ['cjs', 'es'],
-			entry: './src/index.ts',
-			fileName(f) {
+			entry: ['./src/index.ts', './src/cli.ts'],
+			fileName(f, n) {
 				if (f === 'cjs') {
-					return `index.cjs`
+					return `${n}.cjs`
 				}
 				if (f === 'es') {
-					return 'index.mjs'
+					return `${n}.mjs`
 				}
-				return 'index.js'
+				return `${n}.js`
 			}
 		},
 		rollupOptions: {
