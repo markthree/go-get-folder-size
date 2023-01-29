@@ -49,7 +49,7 @@ export async function getFolderSizeBin(
 	base: string,
 	pretty?: false,
 	options?: Options
-): Promise<string>
+): Promise<number>
 export async function getFolderSizeBin(
 	base: string,
 	pretty?: true,

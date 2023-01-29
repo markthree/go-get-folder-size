@@ -17,9 +17,11 @@ globalThis.performance = {
 	}
 }
 
-const crypto = require('crypto')
-globalThis.crypto = {
-	getRandomValues(b) {
-		crypto.randomFillSync(b)
+if (!globalThis.crypto) {
+	const crypto = require('crypto')
+	globalThis.crypto = {
+		getRandomValues(b) {
+			crypto.randomFillSync(b)
+		}
 	}
 }
