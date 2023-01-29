@@ -8,7 +8,7 @@ import {
 
 let defaultBinPath = ''
 
-function inferVersion() {
+export function inferVersion() {
 	const platform = _platform()
 	if (!/win32|linux|darwin/.test(platform)) {
 		throw new Error(`${platform} is not support`)
@@ -25,7 +25,7 @@ function inferVersion() {
 	}`
 }
 
-async function detectDefaultBinPath() {
+export async function detectDefaultBinPath() {
 	if (defaultBinPath) {
 		return defaultBinPath
 	}
