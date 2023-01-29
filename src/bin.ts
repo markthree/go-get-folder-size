@@ -1,6 +1,5 @@
 import { execa } from 'execa'
 import { resolve } from 'node:path'
-import { readdir } from 'node:fs/promises'
 import {
 	arch as _arch,
 	platform as _platform
@@ -25,19 +24,23 @@ export function inferVersion() {
 	}`
 }
 
+export function detectBinName(version = inferVersion()) {
+	return `go-get-folder-size${
+		version.startsWith('windows') ? '.exe' : ''
+	}`
+}
+
 export async function detectDefaultBinPath() {
 	if (defaultBinPath) {
 		return defaultBinPath
 	}
 
-	const dist = resolve(
+	const version = inferVersion()
+	const name = detectBinName(version)
+	defaultBinPath = resolve(
 		__dirname,
-		'../dist',
-		`go-get-folder-size_${inferVersion()}`
+		`../dist/go-get-folder-size_${version}/${name}`
 	)
-
-	const [binPath] = await readdir(dist)
-	defaultBinPath = resolve(dist, binPath)
 	return defaultBinPath
 }
 
