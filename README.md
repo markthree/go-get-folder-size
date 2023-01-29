@@ -4,6 +4,14 @@ Get the size of a folder by recursively iterating through all its sub(files && f
 
 <br />
 
+## features
+
+- 🦕 [binary go](./src/bin.ts)
+- 🦖 [native node](./src/node.ts)
+- 🐊 [wasm go](./src/wasm.ts)
+
+<br />
+
 ## motivation
 
 To quickly know the folder size，but [get-folder-size](https://github.com/alessioalex/get-folder-size) is implemented by nodejs, which is too slow。
