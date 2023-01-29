@@ -30,7 +30,7 @@ export function detectBinName(version = inferVersion()) {
 	}`
 }
 
-export async function detectDefaultBinPath() {
+export function detectDefaultBinPath() {
 	if (defaultBinPath) {
 		return defaultBinPath
 	}
@@ -63,7 +63,7 @@ export async function getFolderSizeBin(
 	pretty = false,
 	options: Options = {}
 ) {
-	const { binPath = await detectDefaultBinPath() } = options
+	const { binPath = detectDefaultBinPath() } = options
 
 	const args = pretty ? ['-p'] : []
 
