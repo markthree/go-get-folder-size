@@ -6,6 +6,12 @@
 
 <br />
 
+## README 🦉
+
+[简体中文](./README_ZH.md) | English
+
+<br />
+
 ## features
 
 - 🦕 [binary go](./src/bin.ts)
