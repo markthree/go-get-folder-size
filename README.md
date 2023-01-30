@@ -1,6 +1,8 @@
-# go-get-folder-size
-
-Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed
+<div align="center">
+    <img width="100%" height="100%" src="./snapshot.gif" />
+    <h1><a href="https://github.com/markthree/go-get-folder-size">go-get-folder-size</a></h1>
+    <p>Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed</p>
+</div>
 
 <br />
 
