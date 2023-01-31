@@ -22,7 +22,8 @@
       "require": "./npm/index.cjs",
       "import": "./npm/index.mjs",
       "types": "./npm/index.d.ts"
-    }
+    },
+    "./*": "./*"
   },
   "scripts": {
     "play-go": "go run",

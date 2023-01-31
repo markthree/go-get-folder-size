@@ -2,7 +2,7 @@ import type { Dirent } from 'node:fs'
 import prettyBytes from 'pretty-bytes'
 import { readdir, lstat } from 'node:fs/promises'
 
-export function slash(path) {
+export function slash(path: string) {
 	return path.replace(/\\/g, '/')
 }
 

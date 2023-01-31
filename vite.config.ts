@@ -9,7 +9,13 @@ export default defineConfig({
 		lib: {
 			name,
 			formats: ['cjs', 'es'],
-			entry: ['./src/index.ts', './src/cli.ts'],
+			entry: [
+				'./src/cli.ts',
+				'./src/bin.ts',
+				'./src/wasm.ts',
+				'./src/node.ts',
+				'./src/index.ts'
+			],
 			fileName(f, n) {
 				if (f === 'cjs') {
 					return `${n}.cjs`
