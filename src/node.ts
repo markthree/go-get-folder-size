@@ -42,15 +42,16 @@ export async function getFolderSize(
 		}
 	}
 
+	base = slash(base)
 	const sizes = await Promise.all(
 		[
 			files.map(async file => {
-				const path = `${slash(base)}/${file.name}`
+				const path = `${base}/${file.name}`
 				const { size } = await lstat(path)
 				return size
 			}),
 			directorys.map(directory => {
-				const path = `${slash(base)}/${directory.name}`
+				const path = `${base}/${directory.name}`
 				return getFolderSize(path, false)
 			})
 		].flat()
