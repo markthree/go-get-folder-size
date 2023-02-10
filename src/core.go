@@ -9,38 +9,6 @@ import (
 	"sync/atomic"
 )
 
-// Synchronous execution, slow
-func Sync(folder string) (totalSize int64, e error) {
-	dirEntrys, err := os.ReadDir(folder)
-
-	if err != nil {
-		return 0, err
-	}
-
-	if len(dirEntrys) == 0 {
-		return 0, nil
-	}
-
-	for _, dirEntry := range dirEntrys {
-		if dirEntry.IsDir() {
-			size, err := Sync(path.Join(folder, dirEntry.Name()))
-			if err != nil {
-				return 0, err
-			}
-			totalSize += size
-			continue
-		}
-
-		info, err := dirEntry.Info()
-		if err != nil {
-			return 0, err
-		}
-		totalSize += info.Size()
-	}
-
-	return totalSize, nil
-}
-
 // Parallel execution, fast enough
 func Parallel(folder string) (totalSize int64, e error) {
 	var wg sync.WaitGroup

@@ -1,10 +1,7 @@
+import { resolve } from "node:path"
 import type { Dirent } from 'node:fs'
 import prettyBytes from 'pretty-bytes'
 import { readdir, lstat } from 'node:fs/promises'
-
-export function slash(path: string) {
-	return path.replace(/\\/g, '/')
-}
 
 export function zipSizes(sizes: number[]) {
 	return sizes.reduce((total, size) => (total += size), 0)
@@ -42,16 +39,15 @@ export async function getFolderSize(
 		}
 	}
 
-	base = slash(base)
 	const sizes = await Promise.all(
 		[
 			files.map(async file => {
-				const path = `${base}/${file.name}`
+				const path = resolve(base, file.name)
 				const { size } = await lstat(path)
 				return size
 			}),
 			directorys.map(directory => {
-				const path = `${base}/${directory.name}`
+				const path = resolve(base, directory.name)
 				return getFolderSize(path, false)
 			})
 		].flat()

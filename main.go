@@ -25,27 +25,15 @@ func main() {
 		return
 	}
 
-	var _size int64
-
-	if sliceIncludes(os.Args, "-s") {
-		size, err := getFolderSize.Sync(root)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		_size = size
-	} else {
-		size, err := getFolderSize.Parallel(root)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		_size = size
+	size, err := getFolderSize.Parallel(root)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 
 	if sliceIncludes(os.Args, "-p") {
-		fmt.Print(bytefmt.ByteSize(uint64(_size)))
+		fmt.Print(bytefmt.ByteSize(uint64(size)))
 	} else {
-		fmt.Print(uint64(_size))
+		fmt.Print(uint64(size))
 	}
 }
