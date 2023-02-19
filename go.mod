@@ -2,10 +2,7 @@ module github.com/markthree/go-get-folder-size
 
 go 1.20
 
-require (
-	code.cloudfoundry.org/bytefmt v0.0.0-20211005130812-5bb3c17173e5
-	github.com/stretchr/testify v1.8.1
-)
+require github.com/stretchr/testify v1.8.1
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

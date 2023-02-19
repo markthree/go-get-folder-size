@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"code.cloudfoundry.org/bytefmt"
 	getFolderSize "github.com/markthree/go-get-folder-size/src"
 )
 
@@ -31,9 +30,5 @@ func main() {
 		return
 	}
 
-	if sliceIncludes(os.Args, "-p") {
-		fmt.Print(bytefmt.ByteSize(uint64(size)))
-	} else {
-		fmt.Print(uint64(size))
-	}
+	fmt.Print(uint64(size))
 }
