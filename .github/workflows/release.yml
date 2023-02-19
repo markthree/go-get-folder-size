@@ -1,29 +1,26 @@
-name: goreleaser
-
-on:
-  push:
-    tags:
-      - "*"
+name: Release
 
 permissions:
   contents: write
 
+on:
+  push:
+    tags:
+      - "v*"
+
 jobs:
-  goreleaser:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - run: git fetch --force --tags
-      - uses: actions/setup-go@v3
+
+      - name: Set node
+        uses: actions/setup-node@v3
         with:
-          go-version: ">=1.19.5"
-          cache: true
-      - uses: goreleaser/goreleaser-action@v4
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --rm-dist
+          node-version: 16.x
+
+      - run: npx changelogithub
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
