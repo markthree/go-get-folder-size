@@ -13,6 +13,8 @@ builds:
       - linux
       - windows
       - darwin
+    flags:
+      - -pgo=auto
 
 archives:
   - format: tar.gz
