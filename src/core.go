@@ -12,7 +12,7 @@ import (
 // Parallel execution, fast enough
 func Parallel(folder string) (totalSize int64, e error) {
 	var wg sync.WaitGroup
-	dirEntrys, err := os.ReadDir(folder)
+	entrys, err := os.ReadDir(folder)
 
 	// catch panic
 	defer func() {
@@ -25,20 +25,20 @@ func Parallel(folder string) (totalSize int64, e error) {
 		return 0, err
 	}
 
-	dirEntrysLen := len(dirEntrys)
+	entrysLen := len(entrys)
 
-	if dirEntrysLen == 0 {
+	if entrysLen == 0 {
 		return 0, nil
 	}
 
-	wg.Add(dirEntrysLen)
+	wg.Add(entrysLen)
 
-	for _, dirEntry := range dirEntrys {
-		go func(dirEntry fs.DirEntry) {
+	for i := 0; i < entrysLen; i++ {
+		go func(entry fs.DirEntry) {
 			defer wg.Done()
 
-			if dirEntry.IsDir() {
-				size, err := Parallel(path.Join(folder, dirEntry.Name()))
+			if entry.IsDir() {
+				size, err := Parallel(path.Join(folder, entry.Name()))
 				if err != nil {
 					panic(err)
 				}
@@ -46,12 +46,12 @@ func Parallel(folder string) (totalSize int64, e error) {
 				return
 			}
 
-			info, err := dirEntry.Info()
+			info, err := entry.Info()
 			if err != nil {
 				panic(err)
 			}
 			atomic.AddInt64(&totalSize, info.Size())
-		}(dirEntry)
+		}(entrys[i])
 	}
 
 	wg.Wait()
