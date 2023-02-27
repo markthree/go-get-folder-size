@@ -1,7 +1,13 @@
 import { execa } from "execa";
-import { resolve } from "node:path";
-import { arch as _arch, platform as _platform } from "node:os";
 import prettyBytes from "pretty-bytes";
+import { arch as _arch, platform as _platform } from "node:os";
+
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const _dirname = typeof __dirname !== "undefined"
+  ? __dirname
+  : dirname(fileURLToPath(import.meta.url));
 
 let defaultBinPath = "";
 
@@ -34,7 +40,7 @@ export function detectDefaultBinPath() {
   const version = inferVersion();
   const name = detectBinName(version);
   defaultBinPath = resolve(
-    __dirname,
+    _dirname,
     `../dist/go-get-folder-size_${version}/${name}`,
   );
   return defaultBinPath;
@@ -61,10 +67,8 @@ export async function getFolderSizeBin(
 ) {
   const { binPath = detectDefaultBinPath() } = options;
 
-  const args = pretty ? ["-p"] : [];
-
   try {
-    const { stdout } = await execa(binPath, args, {
+    const { stdout } = await execa(binPath, {
       cwd: base,
     });
 
