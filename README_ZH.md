@@ -112,9 +112,10 @@ Promise.all([
   .finally(close); // 手动退出是必需的
 ```
 
+<br />
+
 ## 提示
 
-- `wasm` 出奇的比原生 `node` 要慢 🫣
 - 目前该包被使用在组织内的本地项目管理器中，首次获取项目大小优化到 `1s` 内 👉
   [x-pm](https://github.com/dishait/x-pm)
 

@@ -81,6 +81,8 @@ Promise.all([
   .finally(close); // Manual close is required
 ```
 
+<br />
+
 ### go
 
 #### cli
