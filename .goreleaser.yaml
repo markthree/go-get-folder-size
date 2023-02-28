@@ -13,8 +13,8 @@ builds:
       - linux
       - windows
       - darwin
-    flags:
-      - -pgo=auto
+    # flags:
+    #   - -pgo=auto
 
 archives:
   - format: binary

@@ -14,6 +14,7 @@
 
 ## features
 
+- 🐉 [ipc go](./src/bin.ts)
 - 🦕 [binary go](./src/bin.ts)
 - 🦖 [native node](./src/node.ts)
 - 🐊 [wasm go](./src/wasm.ts)
@@ -22,7 +23,9 @@
 
 ## motivation
 
-To quickly know the folder size，but [get-folder-size](https://github.com/alessioalex/get-folder-size) is implemented by nodejs, which is too slow。
+To quickly know the folder size，but
+[get-folder-size](https://github.com/alessioalex/get-folder-size) is implemented
+by nodejs, which is too slow。
 
 <br />
 
@@ -47,18 +50,35 @@ npx go-get-folder-size
 
 ```ts
 import {
-	getFolderSize,
-	getFolderSizeBin,
-	getFolderSizeWasm
-} from 'go-get-folder-size'
+  getFolderSize,
+  getFolderSizeBin,
+  getFolderSizeWasm,
+} from "go-get-folder-size";
 
-const base = './' // The directory path you want to get
+const base = "./"; // The directory path you want to get
 
-await getFolderSizeBin(base) // Binary go, fastest
+await getFolderSizeBin(base); // Binary go, fastest
 
-await getFolderSize(base) // native node
+await getFolderSize(base); // native node
 
-await getFolderSizeWasm(base) // Wasm go，slowest
+await getFolderSizeWasm(base); // Wasm go，slowest
+```
+
+##### IPC
+
+Suitable for multi-path
+
+```ts
+import { createGetFolderSizeBinIpc } from "go-get-folder-size";
+
+const { getFolderSizeWithIpc, close } = createGetFolderSizeBinIpc();
+
+Promise.all([
+  getFolderSizeWithIpc("./"),
+  getFolderSizeWithIpc("../"),
+])
+  .then((vs) => console.log(vs))
+  .finally(close); // Manual close is required
 ```
 
 ### go

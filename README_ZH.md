@@ -8,6 +8,7 @@
 
 ## 特性
 
+- 🐉 [ipc go](./src/bin.ts)
 - 🦕 [二进制 go](./src/bin.ts)
 - 🦖 [原生 node](./src/node.ts)
 - 🐊 [wasm go](./src/wasm.ts)
@@ -16,9 +17,12 @@
 
 ## 动机
 
-想要快速知道文件夹大小，但 nodejs 实现的 [get-folder-size](https://github.com/alessioalex/get-folder-size) 是慢的，所以用 go 实现了递归获取文件夹大小，能跑在 nodejs 中。
+想要快速知道文件夹大小，但 nodejs 实现的
+[get-folder-size](https://github.com/alessioalex/get-folder-size) 是慢的，所以用
+go 实现了递归获取文件夹大小，能跑在 nodejs 中。
 
-具体可见 issue 👉 [get-folder-size/issues/22](https://github.com/alessioalex/get-folder-size/issues/22)
+具体可见 issue 👉
+[get-folder-size/issues/22](https://github.com/alessioalex/get-folder-size/issues/22)
 
 <br />
 
@@ -43,18 +47,18 @@ npx go-get-folder-size
 
 ```ts
 import {
-	getFolderSize,
-	getFolderSizeBin,
-	getFolderSizeWasm
-} from 'go-get-folder-size'
+  getFolderSize,
+  getFolderSizeBin,
+  getFolderSizeWasm,
+} from "go-get-folder-size";
 
-const base = './' // 你想要获取的目录
+const base = "./"; // 你想要获取的目录
 
-await getFolderSizeBin(base) // 二进制 go，最快
+await getFolderSizeBin(base); // 二进制 go，最快
 
-await getFolderSize(base) // 原生 node
+await getFolderSize(base); // 原生 node
 
-await getFolderSizeWasm(base) // Wasm go，最慢 🥵
+await getFolderSizeWasm(base); // Wasm go，最慢 🥵
 ```
 
 ### go
@@ -91,10 +95,28 @@ func main() {
 
 <br />
 
+##### IPC
+
+适用于多路径
+
+```ts
+import { createGetFolderSizeBinIpc } from "go-get-folder-size";
+
+const { getFolderSizeWithIpc, close } = createGetFolderSizeBinIpc();
+
+Promise.all([
+  getFolderSizeWithIpc("./"),
+  getFolderSizeWithIpc("../"),
+])
+  .then((vs) => console.log(vs))
+  .finally(close); // 手动退出是必需的
+```
+
 ## 提示
 
 - `wasm` 出奇的比原生 `node` 要慢 🫣
-- 目前该包被使用在组织内的本地项目管理器中，首次获取项目大小优化到 `1s` 内 👉 [x-pm](https://github.com/dishait/x-pm)
+- 目前该包被使用在组织内的本地项目管理器中，首次获取项目大小优化到 `1s` 内 👉
+  [x-pm](https://github.com/dishait/x-pm)
 
 <br />
 
@@ -108,6 +130,7 @@ func main() {
 
 Made with [markthree](https://github.com/markthree)
 
-Published under [MIT License](https://github.com/markthree/go-get-folder-size/blob/main/LICENSE).
+Published under
+[MIT License](https://github.com/markthree/go-get-folder-size/blob/main/LICENSE).
 
 <br />

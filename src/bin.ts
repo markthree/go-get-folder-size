@@ -67,17 +67,86 @@ export async function getFolderSizeBin(
 ) {
   const { binPath = detectDefaultBinPath() } = options;
 
-  try {
-    const { stdout } = await execa(binPath, {
-      cwd: base,
-    });
+  const { stdout, stderr } = await execa(binPath, {
+    cwd: base,
+  });
 
-    if (pretty) {
-      return prettyBytes(Number(stdout));
-    }
-
-    return Number(stdout);
-  } catch (error) {
-    console.log(error);
+  if (stderr) {
+    throw stderr;
   }
+
+  if (pretty) {
+    return prettyBytes(Number(stdout));
+  }
+
+  return Number(stdout);
+}
+
+export function createGetFolderSizeBinIpc(options: Options = {}) {
+  const { binPath = detectDefaultBinPath() } = options;
+
+  let tasks = new Map<
+    string,
+    { pretty: boolean; resolve: Function; reject: Function }
+  >();
+
+  const go = execa(binPath, {
+    env: {
+      ipc: String(true),
+    },
+  });
+
+  function close() {
+    if (!go.killed) {
+      go.cancel();
+      tasks.clear();
+      tasks = null;
+    }
+  }
+
+  function send(base: string) {
+    go.stdin.write(`${base},`);
+  }
+
+  go.stdout.on("data", (item: string) => {
+    const [base, size] = String(item).split(",");
+    const { pretty, resolve } = tasks.get(base);
+    resolve(pretty ? prettyBytes(Number(size)) : Number(size));
+    tasks.delete(base);
+  });
+
+  go.stderr.on("data", (item: string) => {
+    const [base, ...error] = String(item).split(",");
+    console.log("error", base);
+    const { reject } = tasks.get(base);
+    reject(error.toString());
+    tasks.delete(base);
+  });
+
+  process.once("exit", () => {
+    close();
+  });
+
+  async function getFolderSizeWithIpc(
+    base: string,
+    pretty?: false,
+  ): Promise<number>;
+  async function getFolderSizeWithIpc(
+    base: string,
+    pretty?: true,
+  ): Promise<string>;
+  async function getFolderSizeWithIpc(
+    base: string,
+    pretty = false,
+  ): Promise<number | string> {
+    return new Promise((resolve, reject) => {
+      tasks.set(base, { pretty, resolve, reject });
+      send(base);
+    });
+  }
+
+  return {
+    close,
+    getFolderSizeWithIpc,
+  };
 }

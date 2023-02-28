@@ -1,5 +1,12 @@
 import { bench, describe } from "vitest";
-import { getFolderSize, getFolderSizeBin, getFolderSizeWasm } from "./npm";
+import {
+  createGetFolderSizeBinIpc,
+  getFolderSize,
+  getFolderSizeBin,
+  getFolderSizeWasm,
+} from "./npm";
+
+const { getFolderSizeWithIpc } = createGetFolderSizeBinIpc();
 
 describe("basic", () => {
   const base = `./`;
@@ -11,7 +18,11 @@ describe("basic", () => {
     await getFolderSizeBin(base);
   });
 
-  // bench("getFolderSizeWasm", async () => {
-  //   await getFolderSizeWasm(base);
-  // });
+  bench("getFolderSizeWithIpc", async () => {
+    await getFolderSizeWithIpc(base);
+  });
+
+  bench("getFolderSizeWasm", async () => {
+    await getFolderSizeWasm(base);
+  });
 });

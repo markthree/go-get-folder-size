@@ -33,9 +33,8 @@
     "build-ts": "vite build",
     "sync": "node scripts/sync.js",
     "prepublishOnly": "pnpm build",
-    "build-go-pgo": "cd pgo && go run main.go",
     "release": "bumpp --push --tag --all && npm publish",
-    "build-go-bin": "goreleaser release --snapshot --rm-dist",
+    "build-go-bin": "goreleaser release --snapshot --clean",
     "build": "rimraf -rf npm && run-p build-go-wasm build-go-bin && run-p build-ts build-types",
     "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go"
   },
