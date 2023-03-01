@@ -1,5 +1,6 @@
 import { execa } from "execa";
 import prettyBytes from "pretty-bytes";
+import { createInterface } from "node:readline";
 import { arch as _arch, platform as _platform } from "node:os";
 
 import { fileURLToPath } from "node:url";
@@ -96,8 +97,13 @@ export function createGetFolderSizeBinIpc(options: Options = {}) {
     },
   });
 
+  const readline = createInterface({
+    input: go.stdout,
+  });
+
   function close() {
     if (!go.killed) {
+      readline.close();
       go.cancel();
       tasks.clear();
       tasks = null;
@@ -108,7 +114,7 @@ export function createGetFolderSizeBinIpc(options: Options = {}) {
     go.stdin.write(`${base},`);
   }
 
-  go.stdout.on("data", (item: string) => {
+  readline.on("line", (item: string) => {
     const [base, size] = String(item).split(",");
     const { pretty, resolve } = tasks.get(base);
     resolve(pretty ? prettyBytes(Number(size)) : Number(size));
@@ -117,7 +123,6 @@ export function createGetFolderSizeBinIpc(options: Options = {}) {
 
   go.stderr.on("data", (item: string) => {
     const [base, ...error] = String(item).split(",");
-    console.log("error", base);
     const { reject } = tasks.get(base);
     reject(error.toString());
     tasks.delete(base);

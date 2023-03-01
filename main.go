@@ -10,7 +10,7 @@ import (
 )
 
 func success(base string, size int64) {
-	fmt.Fprintf(os.Stdout, "%v,%v", base, size)
+	fmt.Fprintf(os.Stdout, "%v,%v\n", base, size)
 }
 
 func fail(base string, err error) {
