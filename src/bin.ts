@@ -110,8 +110,13 @@ export function createGetFolderSizeBinIpc(options: Options = {}) {
     }
   }
 
+  let full = false;
+
   function send(base: string) {
-    go.stdin.write(`${base},`);
+    if (full) {
+      return go.stdin.once("drain", () => go.stdin.write(`${base},`));
+    }
+    full = !go.stdin.write(`${base},`);
   }
 
   readline.on("line", (item: string) => {
