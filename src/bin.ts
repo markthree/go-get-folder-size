@@ -120,13 +120,13 @@ export function createGetFolderSizeBinIpc(options: Options = {}) {
   }
 
   readline.on("line", (item: string) => {
-    const [base, size] = String(item).split(",");
+    const [base, size] = item.split(",");
     const { pretty, resolve } = tasks.get(base);
     resolve(pretty ? prettyBytes(Number(size)) : Number(size));
     tasks.delete(base);
   });
 
-  go.stderr.on("data", (item: string) => {
+  go.stderr.on("data", (item: Buffer) => {
     const [base, ...error] = String(item).split(",");
     const { reject } = tasks.get(base);
     reject(error.toString());
