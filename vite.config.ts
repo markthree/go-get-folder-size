@@ -32,5 +32,17 @@ export default defineConfig({
 				...builtinModules.map(v => `node:${v}`)
 			]
 		}
-	}
+	},
+	plugins: [
+		{
+			name: 'vite-plugin-old-node-compatible',
+			apply: 'build',
+			transform(code) {
+				return code.replace(
+					/(?<=[import(|require(|from\s+]["'])node:/g,
+					''
+				)
+			}
+		}
+	]
 })
