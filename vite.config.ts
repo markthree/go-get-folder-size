@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { name } from './package.json'
 import { builtinModules } from 'module'
+import { vitePlugin as specifierBackward } from 'specifier-backward'
 
 export default defineConfig({
 	build: {
@@ -33,16 +34,5 @@ export default defineConfig({
 			]
 		}
 	},
-	plugins: [
-		{
-			name: 'vite-plugin-old-node-compatible',
-			apply: 'build',
-			transform(code) {
-				return code.replace(
-					/(?<=[import(|require(|from\s+]["'])node:/g,
-					''
-				)
-			}
-		}
-	]
+	plugins: [specifierBackward()]
 })
