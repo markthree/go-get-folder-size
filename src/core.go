@@ -8,14 +8,14 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/bytedance/gopkg/util/gopool"
+	"github.com/panjf2000/ants/v2"
 )
 
-var pool = gopool.NewPool("gopool.GetFolderSizePool", 10000, gopool.NewConfig())
+var pool, _ = ants.NewPool(100000, ants.WithPreAlloc(true))
 
 func calc(entry fs.DirEntry, folder string, total *int64) {
 	if entry.IsDir() {
-		size, err := Parallel(path.Join(folder, entry.Name()))
+		size, err := calcDir(path.Join(folder, entry.Name()))
 		if err != nil {
 			panic(err)
 		}
@@ -30,15 +30,7 @@ func calc(entry fs.DirEntry, folder string, total *int64) {
 	atomic.AddInt64(total, info.Size())
 }
 
-// Parallel execution, fast enough
-func Parallel(folder string) (total int64, e error) {
-	// catch panic
-	defer func() {
-		if err := recover(); err != nil {
-			e = fmt.Errorf("%v", err)
-		}
-	}()
-
+func calcDir(folder string) (total int64, e error) {
 	entrys, err := os.ReadDir(folder)
 
 	if err != nil {
@@ -55,7 +47,7 @@ func Parallel(folder string) (total int64, e error) {
 
 	for i := 0; i < entrysLen; i++ {
 		func(entry fs.DirEntry) {
-			pool.Go(func() {
+			_ = ants.Submit(func() {
 				defer wg.Done()
 				calc(entry, folder, &total)
 			})
@@ -63,5 +55,24 @@ func Parallel(folder string) (total int64, e error) {
 	}
 
 	wg.Wait()
+	return total, nil
+}
+
+// Parallel execution, fast enough
+func Parallel(folder string) (total int64, e error) {
+
+	// catch panic
+	defer func() {
+		if err := recover(); err != nil {
+			e = fmt.Errorf("%v", err)
+		}
+	}()
+
+	total, err := calcDir(folder)
+
+	if err != nil {
+		return 0, err
+	}
+
 	return total, nil
 }
