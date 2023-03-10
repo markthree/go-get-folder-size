@@ -7,11 +7,13 @@ import (
 	"path"
 	"sync"
 	"sync/atomic"
+
+	"github.com/bytedance/gopkg/util/gopool"
 )
 
-func calc(entry fs.DirEntry, wg *sync.WaitGroup, folder string, total *int64) {
-	defer wg.Done()
+var pool = gopool.NewPool("gopool.GetFolderSizePool", 10000, gopool.NewConfig())
 
+func calc(entry fs.DirEntry, folder string, total *int64) {
 	if entry.IsDir() {
 		size, err := Parallel(path.Join(folder, entry.Name()))
 		if err != nil {
@@ -30,15 +32,14 @@ func calc(entry fs.DirEntry, wg *sync.WaitGroup, folder string, total *int64) {
 
 // Parallel execution, fast enough
 func Parallel(folder string) (total int64, e error) {
-	var wg sync.WaitGroup
-	entrys, err := os.ReadDir(folder)
-
 	// catch panic
 	defer func() {
 		if err := recover(); err != nil {
 			e = fmt.Errorf("%v", err)
 		}
 	}()
+
+	entrys, err := os.ReadDir(folder)
 
 	if err != nil {
 		return 0, err
@@ -49,11 +50,16 @@ func Parallel(folder string) (total int64, e error) {
 	if entrysLen == 0 {
 		return 0, nil
 	}
-
+	var wg sync.WaitGroup
 	wg.Add(entrysLen)
 
 	for i := 0; i < entrysLen; i++ {
-		go calc(entrys[i], &wg, folder, &total)
+		func(entry fs.DirEntry) {
+			pool.Go(func() {
+				defer wg.Done()
+				calc(entry, folder, &total)
+			})
+		}(entrys[i])
 	}
 
 	wg.Wait()
