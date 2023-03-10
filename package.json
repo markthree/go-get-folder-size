@@ -1,6 +1,6 @@
 {
   "name": "go-get-folder-size",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed",
   "main": "./npm/index.cjs",
   "module": "./npm/index.mjs",
