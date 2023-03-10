@@ -7,16 +7,18 @@ import {
 const { getFolderSizeWithIpc, close } =
 	createGetFolderSizeBinIpc()
 
+const base = '../'
+
 const nodeStartTime = Date.now()
-const nodeResult = await getFolderSize('./', true)
+const nodeResult = await getFolderSize(base, true)
 const nodeDuration = Date.now() - nodeStartTime
 
 const goBinStartTime = Date.now()
-const goBinResult = await getFolderSizeBin('./', true)
+const goBinResult = await getFolderSizeBin(base, true)
 const goBinDuration = Date.now() - goBinStartTime
 
 const goIpcStartTime = Date.now()
-const goIpcResult = await getFolderSizeWithIpc('./', true)
+const goIpcResult = await getFolderSizeWithIpc(base, true)
 const goIpcDuration = Date.now() - goIpcStartTime
 
 close()
