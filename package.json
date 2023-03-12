@@ -1,6 +1,6 @@
 {
   "name": "go-get-folder-size",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed",
   "main": "./npm/index.cjs",
   "module": "./npm/index.mjs",
@@ -52,15 +52,15 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.14.6",
+    "@types/node": "^18.15.0",
     "bumpp": "^9.0.0",
     "cross-env": "^7.0.3",
-    "execa": "^7.0.0",
+    "execa": "^7.1.0",
     "mri": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "pretty-bytes": "^6.1.0",
-    "rimraf": "^4.3.1",
-    "specifier-backward": "^0.0.2",
+    "rimraf": "^4.4.0",
+    "specifier-backward": "^0.0.4",
     "typescript": "^4.9.5",
     "vite": "^4.1.4"
   }

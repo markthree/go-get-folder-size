@@ -1,30 +1,30 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/node': ^18.14.6
+  '@types/node': ^18.15.0
   bumpp: ^9.0.0
   cross-env: ^7.0.3
-  execa: ^7.0.0
+  execa: ^7.1.0
   mri: ^1.2.0
   npm-run-all: ^4.1.5
   pretty-bytes: ^6.1.0
-  rimraf: ^4.3.1
-  specifier-backward: ^0.0.2
+  rimraf: ^4.4.0
+  specifier-backward: ^0.0.4
   typescript: ^4.9.5
   vite: ^4.1.4
 
 devDependencies:
-  '@types/node': 18.14.6
+  '@types/node': 18.15.0
   bumpp: 9.0.0
   cross-env: 7.0.3
-  execa: 7.0.0
+  execa: 7.1.0
   mri: 1.2.0
   npm-run-all: 4.1.5
   pretty-bytes: 6.1.0
-  rimraf: 4.3.1
-  specifier-backward: 0.0.2
+  rimraf: 4.4.0
+  specifier-backward: 0.0.4
   typescript: 4.9.5
-  vite: 4.1.4_@types+node@18.14.6
+  vite: 4.1.4_@types+node@18.15.0
 
 packages:
 
@@ -257,8 +257,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@types/node/18.14.6:
-    resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
+  /@types/node/18.15.0:
+    resolution: {integrity: sha512-z6nr0TTEOBGkzLGmbypWOGnpSpSIBorEhC4L+4HeQ2iezKCi4f77kyslRwvHeNitymGQ+oFyIWGP96l/DPSV9w==}
     dev: true
 
   /acorn/8.8.2:
@@ -516,8 +516,8 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: true
 
-  /execa/7.0.0:
-    resolution: {integrity: sha512-tQbH0pH/8LHTnwTrsKWideqi6rFB/QNUawEwrn+WHyz7PX1Tuz2u7wfTvbaNBdP5JD5LVWxNo8/A8CHNZ3bV6g==}
+  /execa/7.1.0:
+    resolution: {integrity: sha512-T6nIJO3LHxUZ6ahVRaxXz9WLEruXLqdcluA+UuTptXmLM7nDAn9lx9IfkxPyzEL21583qSt4RmL44pO71EHaJQ==}
     engines: {node: ^14.18.0 || ^16.14.0 || >=18.0.0}
     dependencies:
       cross-spawn: 7.0.3
@@ -1118,8 +1118,8 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rimraf/4.3.1:
-    resolution: {integrity: sha512-GfHJHBzFQra23IxDzIdBqhOWfbtdgS1/dCHrDy+yvhpoJY5TdwdT28oWaHWfRpKFDLd3GZnGTx6Mlt4+anbsxQ==}
+  /rimraf/4.4.0:
+    resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -1232,8 +1232,8 @@ packages:
     resolution: {integrity: sha512-rr+VVSXtRhO4OHbXUiAF7xW3Bo9DuuF6C5jH+q/x15j2jniycgKbxU09Hr0WqlSLUs4i4ltHGXqTe7VHclYWyA==}
     dev: true
 
-  /specifier-backward/0.0.2:
-    resolution: {integrity: sha512-eh+WJyMfsAjCnFQRM0fAl3Ps2vLggAo/9V8WOxKHUPavTfnAFM4C2cs3xyYQ9hTxn0+uaIYbe5FRZvZjtNvPkg==}
+  /specifier-backward/0.0.4:
+    resolution: {integrity: sha512-E1x/AIkLT7F2Z839drMZfX7riJDCkJ3QZuJmn9PIXqMUMKVeA7P+HbbAV3PKs5t7d9q3UfN4YWqrZdAFJWTXMA==}
     dependencies:
       unplugin: 1.1.0
     dev: true
@@ -1341,7 +1341,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite/4.1.4_@types+node@18.14.6:
+  /vite/4.1.4_@types+node@18.15.0:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1366,7 +1366,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.14.6
+      '@types/node': 18.15.0
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1
