@@ -11,7 +11,8 @@
   "files": [
     "bin",
     "npm",
-    "dist"
+    "dist",
+    "scripts/post.mjs"
   ],
   "repository": {
     "type": "git",
@@ -36,7 +37,8 @@
     "release": "bumpp --push --tag --all && npm publish",
     "build-go-bin": "goreleaser release --snapshot --clean",
     "build": "rimraf -rf npm && run-p build-go-wasm build-go-bin && run-p build-ts build-types",
-    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go"
+    "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go",
+    "postinstall": "node scripts/post.mjs"
   },
   "keywords": [
     "go",
