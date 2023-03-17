@@ -16,7 +16,14 @@ const _dirname =
 
 let defaultBinPath = ''
 
+// Cache the inferred version to avoid recomputing it
+let cachedInferredVersion = null
+
 export function inferVersion() {
+	if (cachedInferredVersion) {
+		return cachedInferredVersion
+	}
+
 	const platform = _platform()
 	if (!/win32|linux|darwin/.test(platform)) {
 		throw new Error(`${platform} is not support`)
@@ -28,9 +35,10 @@ export function inferVersion() {
 		throw new Error(`${arch} is not support`)
 	}
 
-	return `${platform === 'win32' ? 'windows' : platform}_${
+	cachedInferredVersion = `${platform === 'win32' ? 'windows' : platform}_${
 		arch === 'x64' ? 'amd64_v1' : arch
 	}`
+	return cachedInferredVersion
 }
 
 export function detectBinName(version = inferVersion()) {
@@ -73,7 +81,6 @@ export async function getFolderSizeBin(
 	options: Options = {}
 ) {
 	const { binPath = detectDefaultBinPath() } = options
-
 	const { stdout, stderr } = await execa(binPath, {
 		cwd: base
 	})
@@ -171,3 +178,6 @@ export function createGetFolderSizeBinIpc(
 		getFolderSizeWithIpc
 	}
 }
+
+
+

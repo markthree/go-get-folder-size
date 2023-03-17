@@ -26,7 +26,7 @@ func calc(folder string) (total int64, e error) {
 
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-		ants.Submit(func() {
+		pool.Submit(func() {
 			defer wg.Done()
 			if entry.IsDir() {
 				size, err := calc(path.Join(folder, entry.Name()))
