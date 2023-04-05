@@ -116,6 +116,13 @@ func main() {
 
 <br />
 
+## stack
+
+- [vite](https://github.com/vitejs/vite)
+- [goreleaser](https://github.com/goreleaser/goreleaser)
+
+<br />
+
 ## License
 
 Made with [markthree](https://github.com/markthree)
