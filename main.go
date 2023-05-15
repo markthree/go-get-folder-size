@@ -28,10 +28,16 @@ func handle(base string) {
 	success(base, size)
 }
 
-func main() {
-	isIpc := os.Getenv("ipc")
+func looseHandle(base string) {
+	size := getFolderSize.LooseParallel(base)
+	success(base, size)
+}
 
-	if isIpc == "true" {
+func main() {
+	isIpc := os.Getenv("ipc") == "true"
+	isLoose := os.Getenv("loose") == "true"
+
+	if isIpc {
 		reader := bufio.NewReader(os.Stdin)
 		for {
 			base, err := reader.ReadString(',')
@@ -41,7 +47,11 @@ func main() {
 				continue
 			}
 
-			go handle(base)
+			if isLoose {
+				go looseHandle(base)
+			} else {
+				go handle(base)
+			}
 		}
 	} else {
 		root, err := os.Getwd()
@@ -49,13 +59,16 @@ func main() {
 			fmt.Fprint(os.Stderr, err)
 			return
 		}
-
-		size, err := getFolderSize.Parallel(root)
-		if err != nil {
-			fmt.Fprint(os.Stderr, err)
-			return
+		if isLoose {
+			size := getFolderSize.LooseParallel(root)
+			fmt.Fprint(os.Stdout, size)
+		} else {
+			size, err := getFolderSize.Parallel(root)
+			if err != nil {
+				fmt.Fprint(os.Stderr, err)
+				return
+			}
+			fmt.Fprint(os.Stdout, size)
 		}
-
-		fmt.Fprint(os.Stdout, size)
 	}
 }

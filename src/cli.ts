@@ -11,6 +11,7 @@ function printUsage() {
 
 	options:
 		-h, --help            check help
+    -l  --loose           ignore permission error
 		-p, --pretty          pretty bytes (default true)
 		-b, --base            target base path (default cwd)\n`);
 }
@@ -21,14 +22,16 @@ async function main() {
     default: {
       help: false,
       pretty: true,
+      loose: false,
       base: process.cwd(),
     },
     string: ["base"],
-    boolean: ["pretty", "help"],
+    boolean: ["pretty", "help", "loose"],
     alias: {
       h: ["help"],
       b: ["base"],
       p: ["pretty"],
+      l: ["loose"],
     },
   });
 
@@ -38,6 +41,7 @@ async function main() {
     const size = await getFolderSizeBin(
       argv.base,
       argv.pretty,
+      { loose: argv.loose },
     );
     console.log(size);
   }

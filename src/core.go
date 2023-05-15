@@ -62,3 +62,39 @@ func Parallel(folder string) (total int64, e error) {
 	}
 	return total, nil
 }
+
+func looseCalc(folder string) (total int64) {
+	entrys, err := os.ReadDir(folder)
+	if err != nil {
+		return 0
+	}
+	entrysLen := len(entrys)
+	if entrysLen == 0 {
+		return 0
+	}
+	var wg sync.WaitGroup
+	wg.Add(entrysLen)
+
+	for i := 0; i < entrysLen; i++ {
+		entry := entrys[i]
+		pool.Submit(func() {
+			defer wg.Done()
+			if entry.IsDir() {
+				size := looseCalc(path.Join(folder, entry.Name()))
+				atomic.AddInt64(&total, size)
+				return
+			}
+			info, err := entry.Info()
+			if err != nil {
+				return
+			}
+			atomic.AddInt64(&total, info.Size())
+		})
+	}
+	wg.Wait()
+	return total
+}
+
+func LooseParallel(folder string) (total int64) {
+	return looseCalc(folder)
+}

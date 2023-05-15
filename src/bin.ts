@@ -63,6 +63,10 @@ export function detectDefaultBinPath() {
 
 interface Options {
 	binPath?: string
+	/**
+	 * @default false
+	 */
+	loose?: boolean
 }
 
 export async function getFolderSizeBin(
@@ -80,9 +84,10 @@ export async function getFolderSizeBin(
 	pretty = false,
 	options: Options = {}
 ) {
-	const { binPath = detectDefaultBinPath() } = options
+	const { binPath = detectDefaultBinPath(), loose = false } = options
 	const { stdout, stderr } = await execa(binPath, {
-		cwd: base
+		cwd: base,
+		env: { loose: String(loose) }
 	})
 
 	if (stderr) {
@@ -99,7 +104,7 @@ export async function getFolderSizeBin(
 export function createGetFolderSizeBinIpc(
 	options: Options = {}
 ) {
-	const { binPath = detectDefaultBinPath() } = options
+	const { binPath = detectDefaultBinPath(), loose = false } = options
 
 	let tasks = new Map<
 		string,
@@ -108,7 +113,8 @@ export function createGetFolderSizeBinIpc(
 
 	const go = execa(binPath, {
 		env: {
-			ipc: String(true)
+			ipc: String(true),
+			loose: String(loose)
 		}
 	})
 

@@ -7,18 +7,43 @@ export function zipSizes(sizes: number[]) {
   return sizes.reduce((total, size) => (total += size), 0);
 }
 
+interface Options {
+  /**
+   * @default false
+   */
+  loose?: boolean;
+}
+
+async function getFileSize(path: string) {
+  const { size } = await lstat(path);
+  return size;
+}
+
+async function looseGetFileSize(path: string) {
+  try {
+     const size = await getFileSize(path)
+     return size
+  } catch (error) {
+    return 0
+  }
+} 
+
 export async function getFolderSize(
   base: string,
   pretty?: false,
+  options?: Options,
 ): Promise<number>;
 export async function getFolderSize(
   base: string,
   pretty?: true,
+  options?: Options,
 ): Promise<string>;
 export async function getFolderSize(
   base: string,
   pretty = false,
+  options?: Options,
 ) {
+  const { loose = false } = options || {};
   const dirents = await readdir(base, {
     withFileTypes: true,
   });
@@ -43,12 +68,11 @@ export async function getFolderSize(
     [
       files.map(async (file) => {
         const path = resolve(base, file.name);
-        const { size } = await lstat(path);
-        return size;
+        return loose ? looseGetFileSize(path) : getFileSize(path)
       }),
       directorys.map((directory) => {
         const path = resolve(base, directory.name);
-        return getFolderSize(path, false);
+        return getFolderSize(path, false, options);
       }),
     ].flat(),
   );
