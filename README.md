@@ -111,7 +111,40 @@ import (
 
 func main() {
 	size, err := getFolderSize.Parallel("./") // Concurrent running, invincible fast
+
+  size2 := getFolderSize.LooseParallel("./") // Sometimes we may encounter inaccessible files, and we can set 'loose' to ignore them
 }
+```
+
+## loose
+
+Sometimes we may encounter inaccessible files, and we can set `loose` to ignore
+them
+
+### cli
+
+```shell
+go-get-folder-size --loose
+```
+
+### program
+
+```ts
+import {
+  getFolderSize,
+  getFolderSizeBin,
+  getFolderSizeWasm,
+} from "go-get-folder-size";
+
+const base = "./"; // The directory path you want to get
+const pretty = false; // Human readable way
+const loose = true;
+
+await getFolderSizeBin(base, pretty, { loose }); // Binary go, fastest
+
+await getFolderSize(base, pretty, { loose }); // native node
+
+await getFolderSizeWasm(base, pretty, { loose }); // Wasm go，slowest
 ```
 
 <br />

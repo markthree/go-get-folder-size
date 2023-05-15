@@ -90,6 +90,8 @@ import (
 
 func main() {
 	size, err := getFolderSize.Parallel("./") // 并发计算，超级快
+
+  size2 := getFolderSize.LooseParallel("./") // 有时我们可能会遇到不可访问的文件，我们可以使用 loose 来忽略它们
 }
 ```
 
@@ -110,6 +112,37 @@ Promise.all([
 ])
   .then((vs) => console.log(vs))
   .finally(close); // 手动退出是必需的
+```
+
+
+## loose
+
+有时我们可能会遇到不可访问的文件，我们可以使用 `loose` 来忽略它们
+
+### cli
+
+```shell
+go-get-folder-size --loose
+```
+
+### program
+
+```ts
+import {
+  getFolderSize,
+  getFolderSizeBin,
+  getFolderSizeWasm,
+} from "go-get-folder-size";
+
+const base = "./"; // 你想要获取的目录
+const pretty = false; // 人类可读的方式
+const loose = true;
+
+await getFolderSizeBin(base, pretty, { loose }); // Binary go, fastest
+
+await getFolderSize(base, pretty, { loose }); // native node
+
+await getFolderSizeWasm(base, pretty, { loose }); // Wasm go，slowest
 ```
 
 <br />
