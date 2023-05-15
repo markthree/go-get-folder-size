@@ -9,12 +9,20 @@ import (
 )
 
 func main() {
-	value, err := getFolderSize.Parallel(os.Getenv("base"))
+	base := os.Getenv("base")
+	isLoose := os.Getenv("loose") == "true"
 
-	if err != nil {
-		js.Global().Set("$folderSizeError", err)
-		return
+	if isLoose {
+		value := getFolderSize.LooseParallel(base)
+		js.Global().Set("$folderSize", value)
+	} else {
+		value, err := getFolderSize.Parallel(base)
+
+		if err != nil {
+			js.Global().Set("$folderSizeError", err)
+			return
+		}
+
+		js.Global().Set("$folderSize", value)
 	}
-
-	js.Global().Set("$folderSize", value)
 }
