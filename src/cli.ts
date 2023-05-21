@@ -2,18 +2,18 @@ import mri from "mri";
 import { getFolderSizeBin } from "./bin";
 
 function printUsage() {
-  console.log(` 	go-get-folder-size 
-	
-	Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed
+  console.log(`\ngo-get-folder-size 
 
-	usage:
-		go-get-folder-size [options]
+Get the size of a folder by recursively iterating through all its sub(files && folders). Use go, so high-speed.
 
-	options:
-		-h, --help            check help
-    -l  --loose           ignore permission error
-		-p, --pretty          pretty bytes (default true)
-		-b, --base            target base path (default cwd)\n`);
+usage:
+  go-get-folder-size [options]
+
+options:
+  -h, --help            check help
+  -l  --loose           ignore permission error
+  -p, --pretty          pretty bytes (default true)
+  -b, --base            target base path (default cwd)\n`);
 }
 
 async function main() {
