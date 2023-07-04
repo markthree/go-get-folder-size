@@ -36,7 +36,7 @@
     "prepublishOnly": "pnpm build",
     "release": "bumpp --push --tag --all && npm publish",
     "build-go-bin": "goreleaser release --snapshot --clean",
-    "build": "rimraf -rf npm && run-p build-go-wasm build-go-bin && run-p build-ts build-types",
+    "build": "rimraf -rf npm dist && run-p build-go-wasm build-go-bin && run-p build-ts build-types",
     "build-go-wasm": "cross-env GOOS=js GOARCH=wasm go build -o ./wasm/main.wasm ./wasm/main.go",
     "postinstall": "node scripts/post.mjs"
   },
@@ -54,16 +54,16 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.16.9",
-    "bumpp": "^9.1.0",
+    "@types/node": "^18.16.19",
+    "bumpp": "^9.1.1",
     "cross-env": "^7.0.3",
     "execa": "^7.1.1",
     "mri": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "pretty-bytes": "^6.1.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^5.0.1",
     "specifier-backward": "^0.0.4",
-    "typescript": "^5.0.4",
-    "vite": "^4.3.5"
+    "typescript": "^5.1.6",
+    "vite": "^4.3.9"
   }
 }

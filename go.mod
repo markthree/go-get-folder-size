@@ -3,8 +3,8 @@ module github.com/markthree/go-get-folder-size
 go 1.20
 
 require (
-	github.com/panjf2000/ants/v2 v2.7.1
-	github.com/stretchr/testify v1.8.1
+	github.com/panjf2000/ants/v2 v2.8.0
+	github.com/stretchr/testify v1.8.4
 )
 
 require (

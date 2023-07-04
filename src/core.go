@@ -24,26 +24,30 @@ func calc(folder string) (total int64, e error) {
 	var wg sync.WaitGroup
 	wg.Add(entrysLen)
 
+	fileSize := int64(0)
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-		pool.Submit(func() {
-			defer wg.Done()
-			if entry.IsDir() {
+		if entry.IsDir() {
+			pool.Submit(func() {
+				defer wg.Done()
 				size, err := calc(path.Join(folder, entry.Name()))
 				if err != nil {
 					panic(err)
 				}
 				atomic.AddInt64(&total, size)
-				return
-			}
-			info, err := entry.Info()
-			if err != nil {
-				panic(err)
-			}
-			atomic.AddInt64(&total, info.Size())
-		})
+			})
+			continue
+		}
+		// Normal files
+		info, err := entry.Info()
+		if err != nil {
+			panic(err)
+		}
+		fileSize += info.Size()
+		wg.Done()
 	}
 	wg.Wait()
+	total += fileSize
 	return total, nil
 }
 
@@ -75,21 +79,24 @@ func looseCalc(folder string) (total int64) {
 	var wg sync.WaitGroup
 	wg.Add(entrysLen)
 
+	fileSize := int64(0)
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-		pool.Submit(func() {
-			defer wg.Done()
-			if entry.IsDir() {
+
+		if entry.IsDir() {
+			pool.Submit(func() {
+				defer wg.Done()
 				size := looseCalc(path.Join(folder, entry.Name()))
 				atomic.AddInt64(&total, size)
-				return
-			}
-			info, err := entry.Info()
-			if err != nil {
-				return
-			}
-			atomic.AddInt64(&total, info.Size())
-		})
+			})
+			continue
+		}
+		// Normal files
+		info, err := entry.Info()
+		if err == nil {
+			fileSize += info.Size()
+		}
+		wg.Done()
 	}
 	wg.Wait()
 	return total
