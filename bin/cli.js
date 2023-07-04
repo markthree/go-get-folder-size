@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../npm/cli.cjs')
+require("../npm/cli.cjs");

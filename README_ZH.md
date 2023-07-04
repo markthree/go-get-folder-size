@@ -114,7 +114,6 @@ Promise.all([
   .finally(close); // 手动退出是必需的
 ```
 
-
 ## loose
 
 有时我们可能会遇到不可访问的文件，我们可以使用 `loose` 来忽略它们

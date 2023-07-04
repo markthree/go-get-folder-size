@@ -21,12 +21,12 @@ async function getFileSize(path: string) {
 
 async function looseGetFileSize(path: string) {
   try {
-     const size = await getFileSize(path)
-     return size
+    const size = await getFileSize(path);
+    return size;
   } catch (error) {
-    return 0
+    return 0;
   }
-} 
+}
 
 export async function getFolderSize(
   base: string,
@@ -68,7 +68,7 @@ export async function getFolderSize(
     [
       files.map(async (file) => {
         const path = resolve(base, file.name);
-        return loose ? looseGetFileSize(path) : getFileSize(path)
+        return loose ? looseGetFileSize(path) : getFileSize(path);
       }),
       directorys.map((directory) => {
         const path = resolve(base, directory.name);

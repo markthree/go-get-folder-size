@@ -8,26 +8,26 @@ interface Options {
   /**
    * @default false
    */
-  loose: boolean
+  loose: boolean;
 }
 
 // Not recommended. It may be slower than the native node
 export async function getFolderSizeWasm(
   base: string,
   pretty?: false,
-  options?: Options
+  options?: Options,
 ): Promise<number>;
 export async function getFolderSizeWasm(
   base: string,
   pretty?: true,
-  options?: Options
+  options?: Options,
 ): Promise<string>;
 export async function getFolderSizeWasm(
   base: string,
   pretty = false,
-  options?: Options
+  options?: Options,
 ) {
-  const { loose = false } = options || {}
+  const { loose = false } = options || {};
   const go = new global.Go();
   go.env = { base, loose };
   const instance = await init(go.importObject);
@@ -42,4 +42,3 @@ export async function getFolderSizeWasm(
   }
   return Number(size);
 }
-
