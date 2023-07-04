@@ -99,6 +99,7 @@ func looseCalc(folder string) (total int64) {
 		wg.Done()
 	}
 	wg.Wait()
+	total += fileSize
 	return total
 }
 
