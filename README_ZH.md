@@ -89,9 +89,9 @@ import (
 )
 
 func main() {
-	size, err := getFolderSize.Parallel("./") // 并发计算，超级快
+	size, err := getFolderSize.Invoke("./") // 并发计算，超级快
 
-  size2 := getFolderSize.LooseParallel("./") // 有时我们可能会遇到不可访问的文件，我们可以使用 loose 来忽略它们
+  size2 := getFolderSize.LooseInvoke("./") // 有时我们可能会遇到不可访问的文件，我们可以使用 loose 来忽略它们
 }
 ```
 

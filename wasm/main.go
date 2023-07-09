@@ -13,10 +13,10 @@ func main() {
 	isLoose := os.Getenv("loose") == "true"
 
 	if isLoose {
-		value := getFolderSize.LooseParallel(base)
+		value := getFolderSize.LooseInvoke(base)
 		js.Global().Set("$folderSize", value)
 	} else {
-		value, err := getFolderSize.Parallel(base)
+		value, err := getFolderSize.Invoke(base)
 
 		if err != nil {
 			js.Global().Set("$folderSizeError", err)

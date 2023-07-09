@@ -18,7 +18,7 @@ func fail(base string, err error) {
 }
 
 func handle(base string) {
-	size, err := getFolderSize.Parallel(base)
+	size, err := getFolderSize.Invoke(base)
 
 	if err != nil {
 		fail(base, err)
@@ -29,7 +29,7 @@ func handle(base string) {
 }
 
 func looseHandle(base string) {
-	size := getFolderSize.LooseParallel(base)
+	size := getFolderSize.LooseInvoke(base)
 	success(base, size)
 }
 
@@ -60,10 +60,10 @@ func main() {
 			return
 		}
 		if isLoose {
-			size := getFolderSize.LooseParallel(root)
+			size := getFolderSize.LooseInvoke(root)
 			fmt.Fprint(os.Stdout, size)
 		} else {
-			size, err := getFolderSize.Parallel(root)
+			size, err := getFolderSize.Invoke(root)
 			if err != nil {
 				fmt.Fprint(os.Stderr, err)
 				return

@@ -110,9 +110,9 @@ import (
 )
 
 func main() {
-	size, err := getFolderSize.Parallel("./") // Concurrent running, invincible fast
+	size, err := getFolderSize.Invoke("./") // Concurrent running, invincible fast
 
-  size2 := getFolderSize.LooseParallel("./") // Sometimes we may encounter inaccessible files, and we can set 'loose' to ignore them
+  size2 := getFolderSize.LooseInvoke("./") // Sometimes we may encounter inaccessible files, and we can set 'loose' to ignore them
 }
 ```
 
