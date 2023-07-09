@@ -1,7 +1,7 @@
 <div align="center">
     <img width="100%" height="100%" src="https://raw.githubusercontent.com/markthree/go-get-folder-size/main/snapshot.gif" />
     <h1><a href="https://github.com/markthree/go-get-folder-size">go-get-folder-size</a></h1>
-    <p>递归获取文件夹大小，使用 go，足够快，可以跑在 node 中</p>
+    <p>go 并发快速获取文件夹大小，可以跑在 nodejs 中</p>
 </div>
 
 <br />
@@ -19,7 +19,7 @@
 
 想要快速知道文件夹大小，但 nodejs 实现的
 [get-folder-size](https://github.com/alessioalex/get-folder-size) 是慢的，所以用
-go 实现了递归获取文件夹大小，能跑在 nodejs 中。
+go 实现了递归获取文件夹大小，能跑在 nodejs 中，正常情况下，比 node 原生方案快 `7 ~ 20` 倍
 
 具体可见 issue 👉
 [get-folder-size/issues/22](https://github.com/alessioalex/get-folder-size/issues/22)
