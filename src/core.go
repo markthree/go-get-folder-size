@@ -10,7 +10,7 @@ import (
 	"github.com/panjf2000/ants/v2"
 )
 
-var pool, _ = ants.NewPool(1000000)
+var pool, _ = ants.NewPool(1000000, ants.WithPreAlloc(true))
 
 func calc(folder string) (total int64, e error) {
 	entrys, err := os.ReadDir(folder)
@@ -24,30 +24,27 @@ func calc(folder string) (total int64, e error) {
 	var wg sync.WaitGroup
 	wg.Add(entrysLen)
 
-	fileSize := int64(0)
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-		if entry.IsDir() {
-			pool.Submit(func() {
-				defer wg.Done()
+		pool.Submit(func() {
+			defer wg.Done()
+			if entry.IsDir() {
 				size, err := calc(path.Join(folder, entry.Name()))
 				if err != nil {
 					panic(err)
 				}
 				atomic.AddInt64(&total, size)
-			})
-			continue
-		}
-		// Normal files
-		info, err := entry.Info()
-		if err != nil {
-			panic(err)
-		}
-		fileSize += info.Size()
-		wg.Done()
+				return
+			}
+			// Normal files
+			info, err := entry.Info()
+			if err != nil {
+				panic(err)
+			}
+			atomic.AddInt64(&total, info.Size())
+		})
 	}
 	wg.Wait()
-	total += fileSize
 	return total, nil
 }
 
@@ -79,27 +76,25 @@ func looseCalc(folder string) (total int64) {
 	var wg sync.WaitGroup
 	wg.Add(entrysLen)
 
-	fileSize := int64(0)
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-
 		if entry.IsDir() {
 			pool.Submit(func() {
 				defer wg.Done()
-				size := looseCalc(path.Join(folder, entry.Name()))
-				atomic.AddInt64(&total, size)
+				if entry.IsDir() {
+					size := looseCalc(path.Join(folder, entry.Name()))
+					atomic.AddInt64(&total, size)
+					return
+				}
+				// Normal files
+				info, err := entry.Info()
+				if err == nil {
+					atomic.AddInt64(&total, info.Size())
+				}
 			})
-			continue
 		}
-		// Normal files
-		info, err := entry.Info()
-		if err == nil {
-			fileSize += info.Size()
-		}
-		wg.Done()
 	}
 	wg.Wait()
-	total += fileSize
 	return total
 }
 
