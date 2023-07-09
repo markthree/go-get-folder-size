@@ -78,21 +78,19 @@ func looseCalc(folder string) (total int64) {
 
 	for i := 0; i < entrysLen; i++ {
 		entry := entrys[i]
-		if entry.IsDir() {
-			pool.Submit(func() {
-				defer wg.Done()
-				if entry.IsDir() {
-					size := looseCalc(path.Join(folder, entry.Name()))
-					atomic.AddInt64(&total, size)
-					return
-				}
-				// Normal files
-				info, err := entry.Info()
-				if err == nil {
-					atomic.AddInt64(&total, info.Size())
-				}
-			})
-		}
+		pool.Submit(func() {
+			defer wg.Done()
+			if entry.IsDir() {
+				size := looseCalc(path.Join(folder, entry.Name()))
+				atomic.AddInt64(&total, size)
+				return
+			}
+			// Normal files
+			info, err := entry.Info()
+			if err == nil {
+				atomic.AddInt64(&total, info.Size())
+			}
+		})
 	}
 	wg.Wait()
 	return total
