@@ -1,3 +1,3 @@
 module github.com/markthree/go-get-folder-size
 
-go 1.20
+go 1.21
