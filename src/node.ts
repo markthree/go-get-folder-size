@@ -1,11 +1,6 @@
 import { resolve } from "node:path";
-import type { Dirent } from "node:fs";
 import prettyBytes from "pretty-bytes";
 import { lstat, readdir } from "node:fs/promises";
-
-export function zipSizes(sizes: number[]) {
-  return sizes.reduce((total, size) => (total += size), 0);
-}
 
 interface Options {
   /**
@@ -14,14 +9,14 @@ interface Options {
   loose?: boolean;
 }
 
-async function getFileSize(path: string) {
+async function strictGetFileSize(path: string) {
   const { size } = await lstat(path);
   return size;
 }
 
 async function looseGetFileSize(path: string) {
   try {
-    const size = await getFileSize(path);
+    const size = await strictGetFileSize(path);
     return size;
   } catch (error) {
     return 0;
@@ -51,35 +46,33 @@ export async function getFolderSize(
     return 0;
   }
 
-  const files: Dirent[] = [];
-  const directorys: Dirent[] = [];
+  const promises: Array<Promise<number>> = [];
+
+  let total = 0;
+  const sumTotal = (size: number) => total += size;
+  const getFileSize = loose ? looseGetFileSize : strictGetFileSize;
 
   for (const dirent of dirents) {
     if (dirent.isFile()) {
-      files.push(dirent);
+      const path = resolve(base, dirent.name);
+      promises.push(
+        getFileSize(path).then(sumTotal),
+      );
       continue;
     }
     if (dirent.isDirectory()) {
-      directorys.push(dirent);
+      const path = resolve(base, dirent.name);
+      promises.push(
+        getFolderSize(path, false, options).then(sumTotal),
+      );
     }
   }
 
-  const sizes = await Promise.all(
-    [
-      files.map(async (file) => {
-        const path = resolve(base, file.name);
-        return loose ? looseGetFileSize(path) : getFileSize(path);
-      }),
-      directorys.map((directory) => {
-        const path = resolve(base, directory.name);
-        return getFolderSize(path, false, options);
-      }),
-    ].flat(),
-  );
+  await Promise.all(promises);
 
   if (!pretty) {
-    return zipSizes(sizes);
+    return total;
   }
 
-  return prettyBytes(zipSizes(sizes));
+  return prettyBytes(total);
 }
