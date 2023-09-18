@@ -24,8 +24,9 @@
 ## motivation
 
 I want to know the folder size quickly, but the nodejs implementation of
-[get-folder-size](https://github.com/alessioalex/get-folder-size) is slow, so using
-go implements a recursive get folder size that runs in nodejs and is `7 ~ 20` times faster than the node native solution under normal circumstances。
+[get-folder-size](https://github.com/alessioalex/get-folder-size) is slow, so
+using go implements a recursive get folder size that runs in nodejs and is
+`7 ~ 20` times faster than the node native solution under normal circumstances。
 
 <br />
 

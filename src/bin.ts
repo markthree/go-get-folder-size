@@ -85,7 +85,7 @@ export async function getFolderSizeBin(
   });
 
   if (stderr) {
-    throw new Error(stderr)
+    throw new Error(stderr);
   }
 
   if (pretty) {
@@ -95,9 +95,7 @@ export async function getFolderSizeBin(
   return Number(stdout);
 }
 
-export function createGetFolderSizeBinIpc(
-  options: Options = {},
-) {
+export function createGetFolderSizeBinIpc(options: Options = {}) {
   const { binPath = detectDefaultBinPath(), loose = false } = options;
 
   let tasks = new Map<
@@ -128,7 +126,10 @@ export function createGetFolderSizeBinIpc(
   let full = false;
   function send(base: string) {
     if (full) {
-      return go.stdin.once("drain", () => go.stdin.write(`${base},`));
+      return go.stdin.once("drain", () => {
+        full = false;
+        go.stdin.write(`${base},`);
+      });
     }
     full = !go.stdin.write(`${base},`);
   }
@@ -136,9 +137,7 @@ export function createGetFolderSizeBinIpc(
   readline.on("line", (item: string) => {
     const [base, size] = item.split(",");
     const { pretty, resolve } = tasks.get(base);
-    resolve(
-      pretty ? prettyBytes(Number(size)) : Number(size),
-    );
+    resolve(pretty ? prettyBytes(Number(size)) : Number(size));
     tasks.delete(base);
   });
 

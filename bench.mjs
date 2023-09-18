@@ -6,7 +6,7 @@ import {
 
 const { getFolderSizeWithIpc, close } = createGetFolderSizeBinIpc();
 
-const base = "./";
+const base = "../";
 
 const nodeStartTime = Date.now();
 const nodeResult = await getFolderSize(base, true);

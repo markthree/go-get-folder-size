@@ -19,7 +19,8 @@
 
 想要快速知道文件夹大小，但 nodejs 实现的
 [get-folder-size](https://github.com/alessioalex/get-folder-size) 是慢的，所以用
-go 实现了递归获取文件夹大小，能跑在 nodejs 中，正常情况下，比 node 原生方案快 `7 ~ 20` 倍
+go 实现了递归获取文件夹大小，能跑在 nodejs 中，正常情况下，比 node 原生方案快
+`7 ~ 20` 倍
 
 具体可见 issue 👉
 [get-folder-size/issues/22](https://github.com/alessioalex/get-folder-size/issues/22)
