@@ -65,5 +65,8 @@
     "specifier-backward": "^0.0.4",
     "typescript": "^5.2.2",
     "vite": "^4.4.10"
+  },
+  "dependencies": {
+    "std-env": "^3.7.0"
   }
 }

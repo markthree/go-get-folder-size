@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { runtime } from "std-env";
 import prettyBytes from "pretty-bytes";
 import { lstat, readdir } from "node:fs/promises";
 
@@ -39,18 +40,43 @@ export async function getFolderSize(
   options?: Options,
 ) {
   const { loose = false } = options || {};
-  const dirents = await readdir(base, {
-    withFileTypes: true,
-  });
-  if (dirents.length === 0) {
-    return 0;
-  }
-
-  const promises: Array<Promise<number>> = [];
-
   let total = 0;
   const sumTotal = (size: number) => total += size;
   const getFileSize = loose ? looseGetFileSize : strictGetFileSize;
+
+  // bun (use recursive)
+  if (runtime === "bun") {
+    const dirents = await readdir(base, {
+      recursive: true,
+      withFileTypes: true,
+    });
+
+    if (dirents.length === 0) {
+      return mayBeWithPrettyBytes();
+    }
+
+    const promises = dirents.map(async (dirent) => {
+      if (!dirent.isFile()) {
+        return;
+      }
+      const size = await getFileSize(resolve(base, dirent.name));
+      sumTotal(size);
+    });
+
+    await Promise.all(promises);
+
+    return mayBeWithPrettyBytes();
+  }
+
+  const dirents = await readdir(base, {
+    withFileTypes: true,
+  });
+
+  if (dirents.length === 0) {
+    return mayBeWithPrettyBytes();
+  }
+
+  const promises: Array<Promise<number>> = [];
 
   for (const dirent of dirents) {
     if (dirent.isFile()) {
@@ -70,9 +96,9 @@ export async function getFolderSize(
 
   await Promise.all(promises);
 
-  if (!pretty) {
-    return total;
-  }
+  return mayBeWithPrettyBytes();
 
-  return prettyBytes(total);
+  function mayBeWithPrettyBytes() {
+    return pretty ? prettyBytes(total) : total;
+  }
 }
